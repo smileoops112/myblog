@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+    <div class="col-md-4 mb-3 mx-auto text-center">
+        {% if form.errors %}
+            {% for field in form %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'sign_up' %}" class="form-signin" method="post">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 mt-3 font-weight-normal">Для регистрации укажите имя пользователя и пароль</h1>
+
+            <label for="inputUsername" class="sr-only">Имя пользователя</label>
+            {{ form.username }}
+            <label for="inputPassword" class="sr-only">Пароль</label>
+            {{ form.password }}
+            <label for="ReInputPassword" class="sr-only">Повторите пароль</label>
+            {{ form.password_repeat }}
+            <button class="btn btn-primary btn-block mt-2 btn-large" type="submit">Регистрация</button>
+
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+          crossorigin="anonymous">
+<!--    TITLE УНИКАЛЬНЫЙ -->
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+
+<!--    НАВИГАЦИЯ ВЕЗДЕ ОДИНАКОВАЯ -->
+
+    {% include 'blog/block/navbar.html'%}
+
+<!--    СЛАЙДЕР ТОЛЬКО НА ГЛАВНОЙ, ГДЕ-ТО ВМЕСТО НЕГО ПРОСТО ХЭДЭР, А ГДЕ-ТО ЕГО НЕТ -->
+
+   {% include 'blog/block/slider.html' %}
+
+<!--    ОСНОВНОЙ БЛОК КОНТЕНТА -->
+    {% block content %}
+    {% endblock %}
+<!--    ПАГИНАЦИЯ ГДЕ-ТО ЕСТЬ А ГДЕ-ТО НЕТУ -->
+    {% block pagination %}
+    <nav aria-label="Paginate me">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Предыдущая</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Следующая</a>
+        </li>
+      </ul>
+    </nav>
+    {% endblock %}
+<br>
+<br>
+<!--    ПОДВАЛ ВЕЗДЕ ОДИНАКОВЫЙ -->
+
+    {% include 'blog/block/footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+            crossorigin="anonymous"></script>
+      <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>
