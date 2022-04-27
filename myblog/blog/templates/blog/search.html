@@ -1,0 +1,59 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+{% include './block/search_form.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <nav aria-label="breadcrumb" class="mt-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Поиск</li>
+                </ol>
+            </nav>
+            <p class="lead">Найдено записей: {{ count }}</p>
+            {% for res in results %}
+            <a href="{% url 'detail_post' slug=res.url %}"><h2>{{ res.h1 }}</h2></a>
+            <p>{{ res.description|safe }}</p>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% block pagination %}
+    <nav aria-label="Paginate me">
+        <ul class="pagination justify-content-center">
+            {% if results.has_previous %}
+            <a href="?page={{ results.previous_page_nuber }}{% if request.GET.q %}&q={{ request.GET.q}}{% endif %}"
+               class="page-link" tabindex="-1">Предыдущая</a>
+            {% else %}
+            <li class="page-item disabled">
+                <a href="" class="page-link disabled" tabindex="-1">Предыдущая</a>
+            </li>
+            {% endif %}
+            {% for i in results.paginator.page_range %}
+                {% if i == results.page_number %}
+                    <li class="page-item active">
+                        <a href="?page={{i}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif%}" class="page-link">{{ i }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item active">
+                        <a href="?page={{i}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif%}" class="page-link">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if results.has_next%}
+            <a href="?page={{ results.next_page_number}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+               class="page-link">Следующая</a>
+            {% else %}
+                <li class="page-item disabled">
+                    <a href="" class="page-link disabled">Следующая</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+{% endblock %}
+{% endblock %}

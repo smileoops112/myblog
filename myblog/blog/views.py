@@ -4,6 +4,7 @@ from django.http.response import HttpResponseRedirect, HttpResponse
 from django.views import View
 from django.core.paginator import Paginator
 from django.core.mail import send_mail, BadHeaderError
+from django.db.models import Q
 from .models import Post
 from .forms import SignUpForm, SignInForm, FeedBackForm
 # Create your views here.
@@ -83,3 +84,21 @@ class FeedBackView(View):
 class SuccessView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'blog/success.html', context={'title': 'sps'})
+
+
+class SearchResultsView(View):
+    def get(self, request, *args, **kwargs):
+        results = ''
+        query = self.request.GET.get('q')
+        if query:
+            results = Post.objects.filter(
+                Q(h1__icontains=query) | Q(content__icontains=query)
+            )
+        paginator = Paginator(results, 6)
+        page_number = request.GET.get('page')
+        paginator_obj = paginator.get_page(page_number)
+        return render(request, 'blog/search.html', context={
+            'results': paginator_obj,
+            'count': paginator.count,
+            'title': 'Поиск'
+        })
