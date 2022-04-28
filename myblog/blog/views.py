@@ -5,6 +5,7 @@ from django.views import View
 from django.core.paginator import Paginator
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Q
+from taggit.models import Tag
 from .models import Post
 from .forms import SignUpForm, SignInForm, FeedBackForm
 # Create your views here.
@@ -101,4 +102,16 @@ class SearchResultsView(View):
             'results': paginator_obj,
             'count': paginator.count,
             'title': 'Поиск'
+        })
+
+class TagView(View):
+
+    def get(self, request, slug, *args, **kwargs):
+        tag = get_object_or_404(Tag, slug=slug)
+        posts = Post.objects.filter(tag=tag)
+        common_tags = Post.tag.most_common()
+        return render(request, 'blog/tag.html', context={
+            'posts': posts,
+            'common_tags': common_tags,
+            'title': f'#tag {tag}'
         })

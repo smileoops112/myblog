@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from .views import MainView, PostDetailView, SignUpView, SignInView, SuccessView, FeedBackView, SearchResultsView
+from .views import MainView, PostDetailView, SignUpView, SignInView, SuccessView, FeedBackView, SearchResultsView, TagView
 
 urlpatterns = [
     path('', MainView.as_view(), name='index'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('contacts/', FeedBackView.as_view(), name='contacts'),
     path('contacts/success/', SuccessView.as_view(), name='success'),
     path('search/', SearchResultsView.as_view(), name='search'),
+    path('tag/<slug:slug>', TagView.as_view(), name='tag')
 ]
