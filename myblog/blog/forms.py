@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import User
 from django.contrib.auth import authenticate
+from .models import Comment
 
 
 class SignUpForm(forms.Form):
@@ -103,3 +104,16 @@ class FeedBackForm(forms.Form):
             'rows': 2
         })
     )
+
+
+class CommentForm(forms.Form):
+
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widget = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3
+            })
+        }
